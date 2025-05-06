@@ -36,9 +36,9 @@ namespace MyFirstStaticBlazorApp.Api
 
         [Function("WeChatValidation")]
         public static HttpResponseData Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,ILogger logger)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
-            logger.LogInformation("WeChatValidation function processed a request.");
+            // logger.LogInformation("WeChatValidation function processed a request.");
             var query = req.Url.Query;
             var signature = req.Query["signature"]?? string.Empty;
             var timestamp = req.Query["timestamp"];
