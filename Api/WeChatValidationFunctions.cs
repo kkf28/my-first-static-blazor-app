@@ -45,7 +45,7 @@ namespace MyFirstStaticBlazorApp.Api
             var nonce = req.Query["nonce"];
             var echostr = req.Query["echostr"]?? string.Empty;
 
-            var token = Environment.GetEnvironmentVariable("WECHAT_TOKEN")??"abcdefg"; // 从环境变量中获取 token
+            var token = "abcdefg"; // 从环境变量中获取 token //Environment.GetEnvironmentVariable("WECHAT_TOKEN")??
             
             // 排序与哈希计算（与 PHP 逻辑一致）
             var sortedParams = new[] { token, timestamp, nonce }.OrderBy(s => s);
