@@ -33,7 +33,9 @@ Welcome to your new app.
         }
          try
         {
-           var response=  await Http.GetAsync("/api/WeChatValidation?signature=" + signature + "&timestamp=" + timestamp + "&nonce=" + nonce + "&echostr=" + echostr);
+           var response=  await Http.GetAsync($"/api/WeChatValidation?signature={ signature }&timestamp={ timestamp }&nonce={ nonce }&echostr={ echostr}");
+            // Send a GET request to the API endpoint with the query parameters.
+            // The API endpoint is assumed to be "/api/WeChatValidation".
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsStringAsync();
@@ -42,6 +44,7 @@ Welcome to your new app.
             }
             else
             {
+                Result=$"Error: {response.StatusCode}"; // Store the error status code in the Result property.
                 Console.WriteLine($"Error: {response.StatusCode}"); // Log the error status code to the console.
             }
         }
