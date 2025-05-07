@@ -1,6 +1,6 @@
 ﻿@page "/"
 @inject HttpClient _HttpClient
-
+@attribute [StreamRendering(true)]
 @if (Ret is not null)
 {
     <table class="table table-sm table-borderless table-striped">
@@ -30,6 +30,10 @@
             }
         </tbody>
     </table>
+}
+else
+{
+    <p>loading...</p>
 }
 @code {
     public int Index { get; set; }
