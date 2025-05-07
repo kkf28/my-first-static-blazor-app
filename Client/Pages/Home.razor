@@ -6,7 +6,7 @@
     <table class="table table-sm table-borderless table-striped">
         <thead class="table-warning">
             <tr>
-                <th>#</th>
+                <th hidden>#</th>
                 <th>基金/代码</th>
                 <th>T-1溢价率</th>
                 <th>实时溢价率</th>
@@ -17,7 +17,7 @@
             @foreach (var row in Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? [])
             {
                 <tr class="border-bottom pb-0">
-                    <td>@Index</td>
+                    <td hidden>@Index</td>
                     <td>
                         <p class="m-0 p-0">@row.Cell.FundName</p>
                         <p class="m-0 p-0">@row.Cell.FundID</p>
