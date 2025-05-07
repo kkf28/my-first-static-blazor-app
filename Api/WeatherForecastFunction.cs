@@ -3,33 +3,29 @@ using BlazorApp.Shared;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Api
 {
     public class HttpTrigger
     {
         private readonly ILogger _logger;
+        private readonly JisiluClient client;
 
-        public HttpTrigger(ILoggerFactory loggerFactory)
+        public HttpTrigger(ILoggerFactory loggerFactory, JisiluClient client)
         {
             _logger = loggerFactory.CreateLogger<HttpTrigger>();
+            this.client = client;
         }
 
-        [Function("WeatherForecast")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+        [Function("QDII")]
+        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
-            var randomNumber = new Random();
-            var temp = 0;
-
-            var result = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = temp = randomNumber.Next(-20, 55),
-                Summary = GetSummary(temp)
-            }).ToArray();
-
+            await client.LoginAsync();
+            //return JsonConvert.SerializeObject(await client.GetFundAsync());
+            var result = await client.GetFundAsync();
             var response = req.CreateResponse(HttpStatusCode.OK);
-            response.WriteAsJsonAsync(result);
+            await response.WriteAsJsonAsync(result);
 
             return response;
         }
