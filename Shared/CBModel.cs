@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 
-    public class CBModel
+public class CBModel
     {
         [JsonProperty("page")]
         public int Page { get; set; }
