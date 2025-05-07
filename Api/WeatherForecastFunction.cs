@@ -25,8 +25,8 @@ namespace Api
             //return JsonConvert.SerializeObject(await client.GetFundAsync());
             var result = await client.GetFundAsync();
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(result);
-
+            //await response.WriteAsJsonAsync(result);
+            await response.WriteStringAsync(JsonConvert.SerializeObject(result));
             return response;
         }
 
