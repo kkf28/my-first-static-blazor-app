@@ -62,13 +62,14 @@ else
     {
         var t1 = Task.Run(() =>
           {
-              for (int i = 0; i < 600; i++)
+              for (int i = 0; i < 10; i++)
               {
                   docs = (i % 6) switch { 0 => ".", 1 => "..", 2 => "...", 3 => "....", 4 => ".....", 5 => "......", _ => "" };
+                  Task.Delay(TimeSpan.FromSeconds(0.5));
               }
           });
         await Get();
-        await t1.WaitAsync(CancellationToken.None);
+        // await t1.WaitAsync(CancellationToken.None);
     }
 
     private async Task Get()
