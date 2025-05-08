@@ -54,7 +54,7 @@ else
     <p>loading @docs</p>
 }
 @code {
-    public string docs { get; set; } = "";
+    public string docs { get; set; } = "...";
     public int Index { get; set; }
     public string? Result { get; set; }
     public QDIIModel? Ret { get; set; }
@@ -65,7 +65,7 @@ else
               for (int i = 0; i < 10; i++)
               {
                   docs = (i % 6) switch { 0 => ".", 1 => "..", 2 => "...", 3 => "....", 4 => ".....", 5 => "......", _ => "" };
-                  Task.Delay(TimeSpan.FromSeconds(0.5));
+                  Task.Delay(TimeSpan.FromSeconds(0.5)).Wait();
               }
           });
         await Get();
