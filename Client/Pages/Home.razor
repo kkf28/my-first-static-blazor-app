@@ -1,10 +1,11 @@
 ﻿@page "/"
 @inject HttpClient _HttpClient
 @attribute [StreamRendering(true)]
+<p>更新时间: @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</p>
 @if (Ret is not null)
 {
-    <table class="table table-sm table-borderless table-striped">
-        <thead class="table-warning">
+    <table class="table table-striped">
+        <thead class="table-danger">
             <tr>
                 <th hidden>#</th>
                 <th>基金/代码</th>
@@ -14,26 +15,44 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var row in Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? [])
+            @foreach (var row in (Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? []).OrderByDescending(x => x.Cell.DiscountRate))
             {
-                <tr class="border-bottom pb-0">
+                var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
+                <tr class="border-bottom pb-0 fs-4">
                     <td hidden>@Index</td>
                     <td>
                         <p class="m-0 p-0">@row.Cell.FundName</p>
-                        <p class="m-0 p-0">@row.Cell.FundID</p>
+                        <p class="m-0 p-0 text-primary fs-5">@row.Cell.FundID</p>
                     </td>
-                    <td>@row.Cell.DiscountRate</td>
+                    <td class="@color">@row.Cell.DiscountRate</td>
                     <td>@row.Cell.DiscountRate2</td>
                     <td>@row.Cell.ApplyStatus</td>
                 </tr>
                 Index++;
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-muted">数据仅供参考</td>
+            </tr>
+        </tfoot>
     </table>
+    <div>
+        <p>
+            温馨提示:
+            1.数据仅供参考，不构成投资建议!
+            2.数据有一定的延时性，请关注更新时间!
+            3.估值可能会有一定的误差，请谨慎参考!
+        </p>
+    </div>
 }
 else
 {
-    <p>loading...</p>
+    for (int i = 0; i < 6; i++)
+    {
+        string docs = (i % 6) switch { 0 => ".", 1 => "..", 2 => "...", 3 => "....", 4 => ".....", 5 => "......", _ => "" };
+        <p>loading@docs</p>
+    }
 }
 @code {
     public int Index { get; set; }
