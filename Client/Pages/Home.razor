@@ -1,7 +1,7 @@
 ﻿@page "/"
 @inject HttpClient _HttpClient
 @attribute [StreamRendering(true)]
-<p>更新时间: @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</p>
+<p class="my-1 text-primary">更新时间: @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</p>
 @if (Ret is not null)
 {
     <table class="table table-striped">
@@ -51,7 +51,7 @@
 }
 else
 {    
-    <p>loading@docs</p>
+    <p>loading @docs</p>
 }
 @code {
     public string docs { get; set; } = "";
