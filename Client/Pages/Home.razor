@@ -50,7 +50,7 @@
     </div>
 }
 else
-{    
+{
     <p>loading @docs</p>
 }
 @code {
@@ -60,14 +60,15 @@ else
     public QDIIModel? Ret { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        Task.Run(()=>
-        {
-            for (int i = 0; i < 600; i++)
-            {
-                docs = (i % 6) switch { 0 => ".", 1 => "..", 2 => "...", 3 => "....", 4 => ".....", 5 => "......", _ => "" };
-            }        
-        });
+        var t1 = Task.Run(() =>
+          {
+              for (int i = 0; i < 600; i++)
+              {
+                  docs = (i % 6) switch { 0 => ".", 1 => "..", 2 => "...", 3 => "....", 4 => ".....", 5 => "......", _ => "" };
+              }
+          });
         await Get();
+        await t1.WaitAsync(CancellationToken.None);
     }
 
     private async Task Get()
