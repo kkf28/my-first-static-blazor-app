@@ -18,7 +18,7 @@
             @foreach (var row in (Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? []).OrderByDescending(x => x.Cell.DiscountRate))
             {
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
-                <tr class="border-bottom pb-0 fs-5">
+                <tr class="border-bottom pb-0 fs-6">
                     <td hidden>@Index</td>
                     <td>
                         <p class="m-0 p-0">@row.Cell.FundName</p>
@@ -41,8 +41,8 @@
         </tfoot>
     </table>
     <div>
-        <p>温馨提示:</p>
-        <p class="lh-base">
+        <p class="fw-normal mb-1">温馨提示:</p>
+        <p class="lh-base fw-light">
             1.数据仅供参考，不构成投资建议!<br class="border-0" />
             2.数据有一定的延时性，请关注更新时间!<br class="border-0" />
             3.估值可能会有一定的误差，请谨慎参考!
