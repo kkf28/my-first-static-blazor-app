@@ -18,11 +18,11 @@
             @foreach (var row in (Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? []).OrderByDescending(x => x.Cell.DiscountRate))
             {
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
-                <tr class="border-bottom pb-0 fs-4">
+                <tr class="border-bottom pb-0 fs-5">
                     <td hidden>@Index</td>
                     <td>
                         <p class="m-0 p-0">@row.Cell.FundName</p>
-                        <p class="m-0 p-0 text-primary fs-5">@row.Cell.FundID</p>
+                        <p class="m-0 p-0 text-primary fs-6">@row.Cell.FundID</p>
                     </td>
                     <td class="@color">@row.Cell.DiscountRate</td>
                     <td>@row.Cell.DiscountRate2</td>
@@ -34,33 +34,39 @@
         <tfoot>
             <tr>
                 <td class="text-muted">数据仅供参考</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </tfoot>
     </table>
     <div>
-        <p>
-            温馨提示:
-            1.数据仅供参考，不构成投资建议!
-            2.数据有一定的延时性，请关注更新时间!
+        <p>温馨提示:</p>
+        <p class="lh-base">
+            1.数据仅供参考，不构成投资建议!<br class="border-0" />
+            2.数据有一定的延时性，请关注更新时间!<br class="border-0" />
             3.估值可能会有一定的误差，请谨慎参考!
         </p>
     </div>
 }
 else
-{
-    for (int i = 0; i < 6; i++)
-    {
-        string docs = (i % 6) switch { 0 => ".", 1 => "..", 2 => "...", 3 => "....", 4 => ".....", 5 => "......", _ => "" };
-        <p>loading@docs</p>
-    }
+{    
+    <p>loading@docs</p>
 }
 @code {
+    public string docs { get; set; } = "";
     public int Index { get; set; }
     public string? Result { get; set; }
     public QDIIModel? Ret { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        // return base.OnInitializedAsync();
+        Task.Run(()=>
+        {
+            for (int i = 0; i < 600; i++)
+            {
+                docs = (i % 6) switch { 0 => ".", 1 => "..", 2 => "...", 3 => "....", 4 => ".....", 5 => "......", _ => "" };
+            }        
+        });
         await Get();
     }
 
