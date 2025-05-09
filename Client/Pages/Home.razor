@@ -17,7 +17,7 @@
         <tbody>
             @foreach (var row in (Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? []).OrderByDescending(x => x.Cell.DiscountRate))
             {
-                var row_color = (this.row % 2) == 0 ? "" : "table-danger";
+                var row_color = (this.Index % 2) == 0 ? "pink-100" : "";
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
                 <tr class="border-bottom pb-0">
                     <td hidden>@Index</td>
@@ -25,7 +25,7 @@
                         <p class="m-0 p-0">@row.Cell.FundName</p>
                         <p class="m-0 p-0">@row.Cell.FundID</p>
                     </td>
-                    <td class="@color">@row.Cell.DiscountRate?.Replace("%","")</td>
+                    <td class="@color">@Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "") ?? "0").ToString("0.#")</td>
                     <td>@row.Cell.DiscountRate2</td>
                     <td>@row.Cell.ApplyStatus</td>
                 </tr>
@@ -62,7 +62,7 @@ else
     </svg>
 }
 @code {
-    public int row{ get; set; }
+    public int row { get; set; }
     public string docs { get; set; } = "...";
     public int Index { get; set; }
     public string? Result { get; set; }
