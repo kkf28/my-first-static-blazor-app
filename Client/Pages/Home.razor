@@ -25,8 +25,8 @@
                         <p class="m-0 p-0">@row.Cell.FundName</p>
                         <p class="m-0 p-0">@row.Cell.FundID</p>
                     </td>
-                    <td class="@color">@Math.Round(@Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "") ?? "0"), 1, MidpointRounding.AwayFromZero).ToString("0.#")</td>
-                    <td>@Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2 ?? "0"), 1, MidpointRounding.AwayFromZero).ToString("0.#")</td>
+                    <td class="@color">@Math.Round(@Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "") ?? "0"), 1, MidpointRounding.AwayFromZero).ToString("#.#")</td>
+                    <td>@Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2 ?? "0"), 1, MidpointRounding.AwayFromZero).ToString("#.#")</td>
                     <td>@row.Cell.ApplyStatus</td>
                 </tr>
                 Index++;
