@@ -5,7 +5,7 @@
 @if (Ret is not null)
 {
     <table class="table custom_small_text">
-        <thead class="table-danger">
+        <thead class="custom_table-danger">
             <tr>
                 <th hidden>#</th>
                 <th>基金/代码</th>
@@ -17,7 +17,7 @@
         <tbody>
             @foreach (var row in (Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? []).OrderByDescending(x => x.Cell.DiscountRate))
             {
-                var row_color = (this.Index % 2) == 0 ? "pink-100 custom_table-danger" : "";
+                var row_color = (this.Index % 2) == 0 ? "pink-100 table-danger" : "";
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
                 <tr class="border-bottom pb-0 @row_color">
                     <td hidden>@Index</td>
