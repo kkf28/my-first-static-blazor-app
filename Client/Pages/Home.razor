@@ -19,13 +19,13 @@
             {
                 var row_color = (this.Index % 2) == 0 ? "pink-100" : "";
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
-                <tr class="border-bottom pb-0">
+                <tr class="border-bottom pb-0 @row_color">
                     <td hidden>@Index</td>
                     <td>
                         <p class="m-0 p-0">@row.Cell.FundName</p>
                         <p class="m-0 p-0">@row.Cell.FundID</p>
                     </td>
-                    <td class="@color">@Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "") ?? "0").ToString("0.#")</td>
+                    <td class="@color">@Math.Round(@Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "") ?? "0"), MidpointRounding.AwayFromZero).ToString("0.#")</td>
                     <td>@row.Cell.DiscountRate2</td>
                     <td>@row.Cell.ApplyStatus</td>
                 </tr>
