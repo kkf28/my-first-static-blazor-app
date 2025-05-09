@@ -107,8 +107,9 @@ code {
 }
 
 .custom_table-danger {
-    --bs-table-bg: #dc3545 !important;
-    --bs-table-color: #fff !important;
+    --bs-table-bg: pink !important;
+    /*--bs-table-color: #fff !important;*/
+    /*color: pink;*/
 }
 
     .custom_table-danger:hover {
