@@ -4,12 +4,12 @@
 <p class="my-1 text-primary">更新时间: @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</p>
 @if (Ret is not null)
 {
-    <table class="table table-striped">
+    <table class="table custom_small_text">
         <thead class="table-danger">
             <tr>
                 <th hidden>#</th>
                 <th>基金/代码</th>
-                <th>T-1溢价率</th>
+                <th>T-1溢价率%</th>
                 <th>实时溢价率</th>
                 <th>申购状态</th>
             </tr>
@@ -17,14 +17,15 @@
         <tbody>
             @foreach (var row in (Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? []).OrderByDescending(x => x.Cell.DiscountRate))
             {
+                var row_color = (this.row % 2) == 0 ? "" : "table-danger";
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
-                <tr class="border-bottom pb-0 fs-6">
+                <tr class="border-bottom pb-0">
                     <td hidden>@Index</td>
                     <td>
                         <p class="m-0 p-0">@row.Cell.FundName</p>
-                        <p class="m-0 p-0 text-primary fs-6">@row.Cell.FundID</p>
+                        <p class="m-0 p-0">@row.Cell.FundID</p>
                     </td>
-                    <td class="@color">@row.Cell.DiscountRate</td>
+                    <td class="@color">@row.Cell.DiscountRate?.Replace("%","")</td>
                     <td>@row.Cell.DiscountRate2</td>
                     <td>@row.Cell.ApplyStatus</td>
                 </tr>
@@ -61,6 +62,7 @@ else
     </svg>
 }
 @code {
+    public int row{ get; set; }
     public string docs { get; set; } = "...";
     public int Index { get; set; }
     public string? Result { get; set; }
@@ -82,6 +84,7 @@ else
 
     private async Task Get()
     {
+        this.row = 0;
         this.Index = 1;
         Ret = null;
         var response = await _HttpClient.GetAsync("/api/QDII");
