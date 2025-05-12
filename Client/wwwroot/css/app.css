@@ -119,3 +119,12 @@ code {
 .custom_table_bg {
     --bs-table-bg: #fdf7f6 !important;
 }
+
+tbody, td, tfoot, th, thead, tr {
+    border-bottom-color: #fff !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: medium !important;
+    /*border-color: #fff !important;*/
+    /*border-style: solid;*/
+    /*border-width: medium !important;*/
+}
