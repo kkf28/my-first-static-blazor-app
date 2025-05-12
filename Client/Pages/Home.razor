@@ -5,11 +5,11 @@
 @if (Ret is not null)
 {
     <table class="table custom_small_text">
-        <thead class="custom_table-danger">
+        <thead class="table-danger">
             <tr>
                 <th hidden>#</th>
                 <th>基金/代码</th>
-                <th>T-1溢价率%</th>
+                <th>T-1溢价率</th>
                 <th>实时溢价率</th>
                 <th>申购状态</th>
             </tr>
@@ -17,7 +17,7 @@
         <tbody>
             @foreach (var row in (Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? []).OrderByDescending(x => x.Cell.DiscountRate))
             {
-                var row_color = (this.Index % 2) == 0 ? "pink-100 table-danger" : "";
+                var row_color = "";
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
                 <tr class="border-bottom pb-0 @row_color">
                     <td hidden>@Index</td>
@@ -25,8 +25,8 @@
                         <p class="m-0 p-0">@row.Cell.FundName</p>
                         <p class="m-0 p-0">@row.Cell.FundID</p>
                     </td>
-                    <td class="@color">@Math.Round(@Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "") ?? "0"), 1, MidpointRounding.AwayFromZero).ToString("#0.#")</td>
-                    <td>@Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2 ?? "0"), 1, MidpointRounding.AwayFromZero).ToString("#0.#")</td>
+                    <td class="@color">@row.Cell.DiscountRate</td>
+                    <td>@row.Cell.DiscountRate2</td>
                     <td>@row.Cell.ApplyStatus</td>
                 </tr>
                 Index++;
