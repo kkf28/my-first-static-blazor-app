@@ -107,7 +107,7 @@ code {
 }
 
 .custom_table-danger {
-    --bs-table-bg: #E9967A !important;
+    --bs-table-bg: #f2c2b2 !important;
     /*--bs-table-color: #fff !important;*/
     /*color: pink;*/
 }
