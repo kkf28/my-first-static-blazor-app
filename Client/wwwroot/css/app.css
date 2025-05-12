@@ -115,3 +115,7 @@ code {
     .custom_table-danger:hover {
         --bs-table-bg: #FF1493 !important;
     }
+
+.custom_table_bg {
+    --bs-table-bg: #fdf7f6 !important;
+}
