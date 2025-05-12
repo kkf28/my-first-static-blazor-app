@@ -20,14 +20,16 @@
                 var location = row.Cell.FundID.StartsWith("50")? "沪市":"深市";
                 var row_color = "";
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
+                var dicrate=Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%","")),1, MidpointRounding.AwayFromZero)
+                var dicrate2=string.IsNullOrEmpty(@row.Cell.DiscountRate2)?"-":$"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2),1, MidpointRounding.AwayFromZero)}%";
                 <tr class="border-bottom pb-0 @row_color">
                     <td hidden>@Index</td>
                     <td>
                         <p class="m-0 p-0">@row.Cell.FundName</p>
                         <p class="m-0 p-0">@row.Cell.FundID <small>(@location)</small></p>
                     </td>
-                    <td class="@color">@row.Cell.DiscountRate</td>
-                    <td>@row.Cell.DiscountRate2%</td>
+                    <td class="@color">@dicrate%</td>
+                    <td>@dicrate2</td>
                     <td>@row.Cell.ApplyStatus</td>
                 </tr>
                 Index++;
