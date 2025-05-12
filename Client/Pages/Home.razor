@@ -18,7 +18,7 @@
             @foreach (var row in (Ret.Rows?.Where(x => x.Cell.DiscountRate is not null && x.Cell.DiscountRate != "-" && x.Cell.ApplyStatus != "开放申购") ?? []).OrderByDescending(x => x.Cell.DiscountRate))
             {
                 var location = row.Cell.FundID.StartsWith("50")? "沪市":"深市";
-                var row_color = "";
+                var row_color = "custom_table_bg";
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
                 var dicrate = $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
                 var dicrate2=string.IsNullOrEmpty(@row.Cell.DiscountRate2)?"-":$"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2),1, MidpointRounding.AwayFromZero)}%";
