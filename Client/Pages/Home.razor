@@ -1,7 +1,12 @@
 ﻿@page "/"
 @inject HttpClient _HttpClient
 @attribute [StreamRendering(true)]
-<p class="my-1 text-danger">更新时间: @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</p>
+<div>
+    <div class="row p-0 m-0">
+        <div class="col-6 my-1 text-start text-danger">更新时间: @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</div>
+        <div class="col-6 my-1 text-end text-danger">公众号: 云边i投资</div>
+    </div>
+</div>
 @if (Ret is not null)
 {
     <table class="table custom_small_text">
