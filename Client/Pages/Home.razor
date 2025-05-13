@@ -6,7 +6,7 @@
         <div class="col-6 my-1 text-start text-danger p-0 m-0">
             <div class=" p-0 m-0">更新时间: </div>
             <div class=" p-0 m-0">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</div>
-            </div>
+        </div>
         <div class="col-6 my-1 text-end text-danger p-0 m-0">公众号: 云边i投资</div>
     </div>
 </div>
@@ -29,7 +29,7 @@
                 var row_color = Index % 2 == 0 ? "" : "custom_table_bg";
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
                 var color2 = row.Cell.DiscountRate2?.StartsWith("-") == true ? "text-success" : "text-danger";
-                var dicrate = $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
+                var dicrate = string.IsNullOrEmpty(@row.Cell.DiscountRate) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
                 var dicrate2 = string.IsNullOrEmpty(@row.Cell.DiscountRate2) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2), 1, MidpointRounding.AwayFromZero)}%";
                 <tr class="border-bottom pb-0 @row_color">
                     <td hidden>@Index</td>
@@ -65,7 +65,7 @@
             </div>
             <div class="col-6">
                 <div class="text-center">
-                    <img src="images/wechat.jpg" class="rounded img-thumbnail p-2" alt="..."/>
+                    <img src="images/wechat.jpg" class="rounded img-thumbnail p-2" alt="..." />
                 </div>
             </div>
         </div>
