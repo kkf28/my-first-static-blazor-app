@@ -40,7 +40,17 @@
             return canvas.toDataURL('image/png');
         }
         // 应用为背景
-        document.body.style.backgroundImage = `url(${createWatermark('云边i投资')})`;
+        //document.body.style.backgroundImage = `url(${createWatermark('云边i投资')})`;
+        // 获取所有 table 元素
+        const tables = document.querySelectorAll('table');
+
+        // 遍历并设置背景
+        tables.forEach(table => {
+            table.style.backgroundImage = `url(${createWatermark('云边i投资')})`;
+            table.style.backgroundRepeat = 'no-repeat';    // 禁止重复
+            table.style.backgroundPosition = 'center';     // 居中显示
+            table.style.backgroundSize = 'cover';          // 覆盖整个表格区域
+        });
     </script>
 </body>
 
