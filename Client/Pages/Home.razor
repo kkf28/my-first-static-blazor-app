@@ -3,11 +3,11 @@
 @attribute [StreamRendering(true)]
 <div>
     <div class="row p-0 m-0">
-        <div class="col-6 my-1 text-start text-danger">
-            <div>更新日期: @DateTime.Now.ToString("yyyy-MM-dd")</div>
-            <div>时间: @DateTime.Now.ToString("HH:mm:ss")</div>
+        <div class="col-6 my-1 text-start text-danger p-0 m-0">
+            <div class=" p-0 m-0">更新日期: @DateTime.Now.ToString("yyyy-MM-dd")</div>
+            <div class=" p-0 m-0">时间: @DateTime.Now.ToString("HH:mm:ss")</div>
             </div>
-        <div class="col-6 my-1 text-end text-danger">公众号: 云边i投资</div>
+        <div class="col-6 my-1 text-end text-danger p-0 m-0">公众号: 云边i投资</div>
     </div>
 </div>
 @if (Ret is not null)
@@ -63,7 +63,7 @@
                     3.估值可能会有一定的误差，请谨慎参考!
                 </p>
             </div>
-            <div class="col-6 m-0 p-0">
+            <div class="col-6">
                 <div class="text-center">
                     <img src="images/wechat.jpg" class="rounded img-thumbnail p-2" alt="..."/>
                 </div>
@@ -74,8 +74,10 @@
 else
 {
     <p class="text-light">loading @docs</p>
-    <div class="spinner-border text-danger" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <div class="text-center">
+        <div class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     <svg width="200" height="200" hidden>
         <circle cx="100" cy="100" r="50" fill="none" stroke="#e74c3c" stroke-width="5">
