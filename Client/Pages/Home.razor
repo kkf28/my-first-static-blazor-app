@@ -3,7 +3,10 @@
 @attribute [StreamRendering(true)]
 <div>
     <div class="row p-0 m-0">
-        <div class="col-6 my-1 text-start text-danger">更新时间: @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</div>
+        <div class="col-6 my-1 text-start text-danger">
+            <div>更新日期: @DateTime.Now.ToString("yyyy-MM-dd")</div>
+            <div>时间: @DateTime.Now.ToString("HH:mm:ss")</div>
+            </div>
         <div class="col-6 my-1 text-end text-danger">公众号: 云边i投资</div>
     </div>
 </div>
@@ -62,7 +65,7 @@
             </div>
             <div class="col-6 m-0 p-0">
                 <div class="text-center">
-                    <img src="images/wechat.jpg" class="rounded img-thumbnail" alt="..."/>
+                    <img src="images/wechat.jpg" class="rounded img-thumbnail p-2" alt="..."/>
                 </div>
             </div>
         </div>
