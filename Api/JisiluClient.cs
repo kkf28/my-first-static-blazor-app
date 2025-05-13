@@ -103,7 +103,7 @@ public class JisiluClient : IDisposable
         CBModel data = JsonConvert.DeserializeObject<CBModel>(result) ?? new();
         HtmlParser htmlParser = new HtmlParser();
         int index = 1;
-        foreach (var row in data.Rows?.Where(x => x.Cell.YtmRate is not null && x.Cell.YtmRate >= 0 && x.Cell.BondName.Contains("EB") == false && x.Cell.PriceTips != "待上市")?.OrderBy(x => x.Cell.Price))
+        foreach (var row in (data.Rows?.Where(x => x.Cell.YtmRate is not null && x.Cell.YtmRate >= 0 && x.Cell.BondName.Contains("EB") == false && x.Cell.PriceTips != "待上市") ?? []).OrderBy(x => x.Cell.Price))
         {
             var bdUrl = $"https://www.jisilu.cn/data/convert_bond_detail/{row.Cell.BondID}";
 
@@ -117,7 +117,7 @@ public class JisiluClient : IDisposable
             index++;
         }
         index = 1;
-        foreach (var row in data.Rows?.Where(x => x.Cell.YtmRate is not null && x.Cell.YtmRate >= 0 && x.Cell.BondName.Contains("EB") == false && x.Cell.PriceTips != "待上市")?.OrderBy(x => x.Cell.PremiumRate))
+        foreach (var row in (data.Rows?.Where(x => x.Cell.YtmRate is not null && x.Cell.YtmRate >= 0 && x.Cell.BondName.Contains("EB") == false && x.Cell.PriceTips != "待上市") ?? []).OrderBy(x => x.Cell.PremiumRate))
         {
             row.Cell.Premium_Order = index * 2;
             row.Cell.Sum_Order = row.Cell.Price_Order + row.Cell.Premium_Order;
