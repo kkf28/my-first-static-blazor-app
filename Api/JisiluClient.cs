@@ -76,17 +76,20 @@ public class JisiluClient : IDisposable
         var ret1 = await response1.Content.ReadAsStringAsync();
         QDIIModel data1 = JsonConvert.DeserializeObject<QDIIModel>(ret1) ?? new();
 
-        var response2 = await _client.GetAsync(url2);
-        response2.EnsureSuccessStatusCode();
-        var ret2 = await response2.Content.ReadAsStringAsync();
-        QDIIModel data2 = JsonConvert.DeserializeObject<QDIIModel>(ret2) ?? new();
-        foreach (var row in data2.Rows??[])
+        //Asia
+        //
+        foreach (var row in data1.Rows??[])
         {
             var a=row.Cell.DiscountRate2;
             var b=row.Cell.DiscountRate;
             row.Cell.DiscountRate2 = b;
             row.Cell.DiscountRate = a;
         }
+
+        var response2 = await _client.GetAsync(url2);
+        response2.EnsureSuccessStatusCode();
+        var ret2 = await response2.Content.ReadAsStringAsync();
+        QDIIModel data2 = JsonConvert.DeserializeObject<QDIIModel>(ret2) ?? new();
 
         var response3 = await _client.GetAsync(url3);
         response3.EnsureSuccessStatusCode();
@@ -95,7 +98,7 @@ public class JisiluClient : IDisposable
 
         //_ = data1.Rows.Concat(data2.Rows).Concat(data3.Rows);
 
-        return new QDIIModel { Page = 1, Rows = data1.Rows.Concat(data2.Rows??[]).Concat(data3.Rows??[]) };
+        return new QDIIModel { Page = 1, Rows = (data1.Rows??[]).Concat(data2.Rows??[]).Concat(data3.Rows??[]) };
     }
 
     // 获取数据
