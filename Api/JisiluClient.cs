@@ -83,7 +83,7 @@ public class JisiluClient : IDisposable
             var a=row.Cell.DiscountRate2;
             var b=row.Cell.DiscountRate;
             row.Cell.DiscountRate2 = b;
-            row.Cell.DiscountRate = a;
+            // row.Cell.DiscountRate = a;
         }
 
         var response2 = await _client.GetAsync(url2);
