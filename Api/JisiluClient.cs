@@ -80,7 +80,7 @@ public class JisiluClient : IDisposable
         //
         foreach (var row in data1.Rows??[])
         {
-            var a=row.Cell.DiscountRate2;
+            // var a=row.Cell.DiscountRate2;
             var b=row.Cell.DiscountRate;
             row.Cell.DiscountRate2 = b;
             // row.Cell.DiscountRate = a;
