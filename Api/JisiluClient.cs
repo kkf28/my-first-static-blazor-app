@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using BlazorApp.Shared;
+using Newtonsoft.Json;
 using System.Net;
+using System.Security.Policy;
 
 public class JisiluClient : IDisposable
 {
@@ -78,10 +80,10 @@ public class JisiluClient : IDisposable
 
         //Asia
         //
-        foreach (var row in data1.Rows??[])
+        foreach (var row in data1.Rows ?? [])
         {
             // var a=row.Cell.DiscountRate2;
-            var b=row.Cell.DiscountRate;
+            var b = row.Cell.DiscountRate;
             row.Cell.DiscountRate2 = b;
             // row.Cell.DiscountRate = a;
         }
@@ -98,7 +100,17 @@ public class JisiluClient : IDisposable
 
         //_ = data1.Rows.Concat(data2.Rows).Concat(data3.Rows);
 
-        return new QDIIModel { Page = 1, Rows = (data1.Rows??[]).Concat(data2.Rows??[]).Concat(data3.Rows??[]) };
+        return new QDIIModel { Page = 1, Rows = (data1.Rows ?? []).Concat(data2.Rows ?? []).Concat(data3.Rows ?? []) };
+    }
+
+    public async Task<REITsModel> GetREITsAsync()
+    {
+        var let_url = $"""https://www.jisilu.cn/data/cnreits/pre_list/?___jsl=LST___t={DateTime.UtcNow.Ticks}""";
+
+        var response1 = await _client.GetAsync(let_url);
+        response1.EnsureSuccessStatusCode();
+        var ret1 = await response1.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<REITsModel>(ret1) ?? new();
     }
 
     // 获取数据

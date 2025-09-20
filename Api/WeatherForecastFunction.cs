@@ -1,9 +1,8 @@
-using System.Net;
-using BlazorApp.Shared;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace Api
 {
@@ -22,10 +21,18 @@ namespace Api
         public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             await client.LoginAsync();
-            //return JsonConvert.SerializeObject(await client.GetFundAsync());
             var result = await client.GetFundAsync();
             var response = req.CreateResponse(HttpStatusCode.OK);
-            //await response.WriteAsJsonAsync(result);
+            await response.WriteStringAsync(JsonConvert.SerializeObject(result));
+            return response;
+        }
+
+        [Function("REITs")]
+        public async Task<HttpResponseData> GetREITs([HttpTrigger(AuthorizationLevel.Anonymous,"get")] HttpRequestData req)
+        {
+            await client.LoginAsync();
+            var result = await client.GetREITsAsync();
+            var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteStringAsync(JsonConvert.SerializeObject(result));
             return response;
         }

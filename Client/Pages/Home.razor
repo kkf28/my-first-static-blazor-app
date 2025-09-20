@@ -108,18 +108,8 @@ else
     public string? Result { get; set; }
     public QDIIModel? Ret { get; set; }
     protected override async Task OnInitializedAsync()
-    {
-        // var t1 = Task.Run(() =>
-        //   {
-        //       for (int i = 0; i < 10; i++)
-        //       {
-        //           docs = (i % 6) switch { 0 => ".", 1 => "..", 2 => "...", 3 => "....", 4 => ".....", 5 => "......", _ => "" };
-        //           Task.Delay(TimeSpan.FromSeconds(0.5)).Wait();
-        //           StateHasChanged();
-        //       }
-        //   });
+    {        
         await Get();
-        // await t1.WaitAsync(CancellationToken.None);
     }
 
     private async Task Get()
