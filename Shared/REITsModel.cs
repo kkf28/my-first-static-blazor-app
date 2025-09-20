@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-//namespace BlazorApp.Shared
+namespace BlazorApp.Shared
 {
     public class REITsModel
     {
