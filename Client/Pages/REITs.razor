@@ -1,0 +1,133 @@
+﻿@page "/reits"
+@inject HttpClient _HttpClient
+@attribute [StreamRendering(true)]
+<div>
+    <div class="row p-0 m-0">
+        <div class="col-6 my-1 text-start text-danger p-0 m-0">
+            <div class=" p-0 m-0">更新时间: </div>
+            <div class=" p-0 m-0">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</div>
+        </div>
+        <div class="col-6 my-1 text-end text-danger p-0 m-0">
+            <div class=" p-0 m-0">
+                公众号: 云边i投资
+            </div>
+            <div class=" p-0 m-0" hidden>
+                <a href="https://mp.weixin.qq.com/s/Qali6lbWqCk6IhqNG0nf2Q" class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index" viewBox="0 0 16 16">
+                        <path d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435a4.9 4.9 0 0 1 .106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1zM8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5.114 5.114 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.632 2.632 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046l-.048.002zm2.094 2.025z" />
+                    </svg>LOF套利教程
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Ret is not null)
+{
+    <table class="table custom_small_text">
+        <thead class="custom_table-danger">
+            <tr>
+                <th hidden>#</th>
+                <th>代码</th>
+                <th>名称</th>
+                <th>发售起始日</th>
+                <th>上市日期</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in (Ret.Rows ?? []))
+            {
+                <tr class="border-bottom pb-0">
+                    <td hidden>@Index</td>
+                    <td>
+                        <p class="m-0 p-0">@row.Cell.FundID</p>
+                    </td>
+                    <td class="">
+                        <p class="m-0 p-0">@row.Cell.FundName</p>
+                    </td>
+                    <td class="">@row.Cell.StartDate</td>
+                    <td>@row.Cell.ListDate</td>
+                </tr>
+                Index++;
+            }
+        </tbody>
+        <tfoot>
+            <tr hidden>
+                <td class="text-muted">数据仅供参考</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div>
+        <div class="row m-0 p-0" hidden>
+            <div class="col-6 m-0 p-0">
+                <p class="fw-normal mb-1">温馨提示:</p>
+                <p class="lh-base fw-light">
+                    1.数据仅供参考，不构成投资建议!<br class="border-0" />
+                    2.数据有一定的延时性，请关注更新时间!<br class="border-0" />
+                    3.估值可能会有一定的误差，请谨慎参考!
+                </p>
+            </div>
+            <div class="col-6">
+                <div class="text-center">
+                    <img src="images/wechat.jpg" class="rounded img-thumbnail p-2" alt="..." />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-light">loading @docs</p>
+    <div class="text-center">
+        <div class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <svg width="200" height="200" hidden>
+        <circle cx="100" cy="100" r="50" fill="none" stroke="#e74c3c" stroke-width="5">
+            <animateTransform attributeName="transform"
+                              type="rotate"
+                              from="0 100 100"
+                              to="360 100 100"
+                              dur="3s"
+                              repeatCount="indefinite" />
+        </circle>
+    </svg>
+}
+@code {
+    public int row { get; set; }
+    public string docs { get; set; } = "...";
+    public int Index { get; set; }
+    public string? Result { get; set; }
+    public REITsModel? Ret { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await Get();
+    }
+
+    private async Task Get()
+    {
+        this.row = 0;
+        this.Index = 1;
+        Ret = null;
+        var response = await _HttpClient.GetAsync("/api/REITs");
+        Result = await response.Content.ReadAsStringAsync();
+        // var obj = await response.Content.ReadFromJsonAsync<dynamic>();
+        // var doc=JsonSerializer.SerializeToDocument(Result);
+        // Result= JsonSerializer.Serialize(obj, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        if (response.IsSuccessStatusCode)
+        {
+            // var obj = JsonSerializer.Deserialize<dynamic>(Result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            Ret = JsonConvert.DeserializeObject<REITsModel>(Result);
+            // var obj = J
+            Result = $"success";
+
+        }
+        else
+        {
+            Result = response.ReasonPhrase;
+        }
+    }
+}

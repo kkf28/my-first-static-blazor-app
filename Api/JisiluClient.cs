@@ -1,7 +1,5 @@
-﻿using BlazorApp.Shared;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Net;
-using System.Security.Policy;
 
 public class JisiluClient : IDisposable
 {
