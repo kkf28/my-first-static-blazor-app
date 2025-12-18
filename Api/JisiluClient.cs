@@ -71,6 +71,7 @@ public class JisiluClient : IDisposable
         var url1 = $"https://www.jisilu.cn/data/qdii/qdii_list/A?___jsl=LST___t={DateTime.UtcNow.Ticks}&only_lof=y&rp=22&page=1";
         var url2 = $"https://www.jisilu.cn/data/qdii/qdii_list/E?___jsl=LST___t={DateTime.UtcNow.Ticks}&only_lof=y&rp=22&page=1";
         var url3 = $"https://www.jisilu.cn/data/qdii/qdii_list/C?___jsl=LST___t={DateTime.UtcNow.Ticks}&only_lof=y&rp=22&page=1";
+        var url4 = $"https://www.jisilu.cn/data/lof/index_lof_list/?___jsl=LST___t={DateTime.UtcNow.Ticks}&rp=25";
 
         var response1 = await _client.GetAsync(url1);
         response1.EnsureSuccessStatusCode();
@@ -97,9 +98,32 @@ public class JisiluClient : IDisposable
         var ret3 = await response3.Content.ReadAsStringAsync();
         QDIIModel data3 = JsonConvert.DeserializeObject<QDIIModel>(ret3) ?? new();
 
+        var response4 = await _client.GetAsync(url4);
+        response4.EnsureSuccessStatusCode();
+        var ret4 = await response4.Content.ReadAsStringAsync();
+        LOFModel data4 = JsonConvert.DeserializeObject<LOFModel>(ret4) ?? new();
+
+        List<QDIICellModel> rows4 = [];
+        foreach (var row in data4.Rows?.Where(x => decimal.TryParse(x.Cell.DiscountRate2, out var _) && Convert.ToDecimal(x.Cell.DiscountRate2 ?? "0") > 1) ?? [])
+        {
+            rows4.Add(new QDIICellModel
+            {
+                Id = row.Id,
+                Cell = new FundModel
+                {
+                    FundID = row.Cell.FundID,
+                    FundName = row.Cell.FundName,
+                    QType = row.Cell.QType,
+                    DiscountRate = row.Cell.DiscountRate,
+                    DiscountRate2 = row.Cell.DiscountRate2,
+                    ApplyStatus = row.Cell.ApplyStatus,
+                },
+            });
+        }
+
         //_ = data1.Rows.Concat(data2.Rows).Concat(data3.Rows);
 
-        return new QDIIModel { Page = 1, Rows = (data1.Rows ?? []).Concat(data2.Rows ?? []).Concat(data3.Rows ?? []) };
+        return new QDIIModel { Page = 1, Rows = (data1.Rows ?? []).Concat(data2.Rows ?? []).Concat(data3.Rows ?? []).Concat(rows4) };
     }
 
     public async Task<REITsModel> GetREITsAsync()
