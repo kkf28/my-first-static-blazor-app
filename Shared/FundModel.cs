@@ -18,14 +18,14 @@ public class LOFModel
 public class QDIICellModel
 {
     [JsonProperty("id")]
-    public int Id { get; set; }
+    public string Id { get; set; }
     [JsonProperty("cell")]
     public FundModel Cell { get; set; }
 }
 public class LOFCellModel
 {
     [JsonProperty("id")]
-    public int Id { get; set; }
+    public string Id { get; set; }
     [JsonProperty("cell")]
     public LOFFundModel Cell { get; set; }
 }
@@ -42,7 +42,7 @@ public class LOFFundModel
     public string FundID { get; set; }
     [JsonProperty("fund_nm")]
     public string FundName { get; set; }
-    public string QType => "-";
+    public string QType { get; set; }
     [JsonProperty("discount_rt")]
     public string DiscountRate { get; set; }
 

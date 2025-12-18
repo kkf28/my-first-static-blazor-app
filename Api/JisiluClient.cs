@@ -101,25 +101,25 @@ public class JisiluClient : IDisposable
         var response4 = await _client.GetAsync(url4);
         response4.EnsureSuccessStatusCode();
         var ret4 = await response4.Content.ReadAsStringAsync();
-        //LOFModel data4 = JsonConvert.DeserializeObject<LOFModel>(ret4) ?? new();
+        LOFModel data4 = JsonConvert.DeserializeObject<LOFModel>(ret4) ?? new();
 
         List<QDIICellModel> rows4 = [];
-        //foreach (var row in data4.Rows?.Where(x => decimal.TryParse(x.Cell.DiscountRate2, out var _) && Convert.ToDecimal(x.Cell.DiscountRate2 ?? "0") > 1) ?? [])
-        //{
-        //    rows4.Add(new QDIICellModel
-        //    {
-        //        Id = row.Id,
-        //        Cell = new FundModel
-        //        {
-        //            FundID = row.Cell.FundID,
-        //            FundName = row.Cell.FundName,
-        //            QType = row.Cell.QType,
-        //            DiscountRate = row.Cell.DiscountRate,
-        //            DiscountRate2 = row.Cell.DiscountRate2,
-        //            ApplyStatus = row.Cell.ApplyStatus,
-        //        },
-        //    });
-        //}
+        foreach (var row in data4.Rows?.Where(x => decimal.TryParse(x.Cell.DiscountRate2, out var _) && Convert.ToDecimal(x.Cell.DiscountRate2 ?? "0") > 1) ?? [])
+        {
+            rows4.Add(new QDIICellModel
+            {
+                Id = row.Id,
+                Cell = new FundModel
+                {
+                    FundID = row.Cell.FundID,
+                    FundName = row.Cell.FundName,
+                    QType = row.Cell.QType,
+                    DiscountRate = row.Cell.DiscountRate,
+                    DiscountRate2 = row.Cell.DiscountRate2,
+                    ApplyStatus = row.Cell.ApplyStatus,
+                },
+            });
+        }
 
         //_ = data1.Rows.Concat(data2.Rows).Concat(data3.Rows);
 
