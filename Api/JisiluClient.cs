@@ -101,7 +101,7 @@ public class JisiluClient : IDisposable
         var response4 = await _client.GetAsync(url4);
         response4.EnsureSuccessStatusCode();
         var ret4 = await response4.Content.ReadAsStringAsync();
-        LOFModel data4 = JsonConvert.DeserializeObject<LOFModel>(ret4) ?? new();
+        //LOFModel data4 = JsonConvert.DeserializeObject<LOFModel>(ret4) ?? new();
 
         List<QDIICellModel> rows4 = [];
         //foreach (var row in data4.Rows?.Where(x => decimal.TryParse(x.Cell.DiscountRate2, out var _) && Convert.ToDecimal(x.Cell.DiscountRate2 ?? "0") > 1) ?? [])
