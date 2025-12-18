@@ -104,7 +104,7 @@ public class JisiluClient : IDisposable
         LOFModel data4 = JsonConvert.DeserializeObject<LOFModel>(ret4) ?? new();
 
         List<QDIICellModel> rows4 = [];
-        foreach (var row in data4.Rows?.Where(x => decimal.TryParse(x.Cell.DiscountRate2, out var _) && Convert.ToDecimal(x.Cell.DiscountRate2 ?? "0") > 1) ?? [])
+        foreach (var row in data4.Rows?.Where(x => decimal.TryParse(x.Cell.DiscountRate, out var _) && Convert.ToDecimal(x.Cell.DiscountRate ?? "0") > 1) ?? [])
         {
             rows4.Add(new QDIICellModel
             {
@@ -115,7 +115,7 @@ public class JisiluClient : IDisposable
                     FundName = row.Cell.FundName,
                     QType = row.Cell.QType,
                     DiscountRate = row.Cell.DiscountRate,
-                    DiscountRate2 = row.Cell.DiscountRate2,
+                    DiscountRate2 = row.Cell.DiscountRate,
                     ApplyStatus = row.Cell.ApplyStatus,
                 },
             });

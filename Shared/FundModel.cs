@@ -44,9 +44,7 @@ public class LOFFundModel
     public string FundName { get; set; }
     public string QType { get; set; }
     [JsonProperty("discount_rt")]
-    public string DiscountRate { get; set; }
-
-    [JsonProperty("discount_rt")]
+    public string DiscountRate { get; set; }    
     public string DiscountRate2 { get; set; }
 
     [JsonProperty("apply_status")]
