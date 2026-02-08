@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace BlazorApp.Shared
@@ -11,6 +12,12 @@ namespace BlazorApp.Shared
         public int Page { get; set; }
         [JsonProperty("rows")]
         public IEnumerable<REITsCellModel> Rows { get; set; }
+    }
+
+    public class LocalREITsModel
+    {
+        public REITsModel REITs { get; set; }
+        public DateTime Expiry { get; set; }
     }
 
     public class REITsCellModel

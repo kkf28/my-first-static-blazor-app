@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject HttpClient _HttpClient
+@inject ILocalStorageService _LocalStorage
 @attribute [StreamRendering(true)]
 <PageTitle>云边i投资 - 基金套利神器</PageTitle>
 <div>
@@ -109,7 +110,7 @@ else
     public string? Result { get; set; }
     public QDIIModel? Ret { get; set; }
     protected override async Task OnInitializedAsync()
-    {        
+    {
         await Get();
     }
 
@@ -118,22 +119,36 @@ else
         this.row = 0;
         this.Index = 1;
         Ret = null;
-        var response = await _HttpClient.GetAsync("/api/QDII");
-        Result = await response.Content.ReadAsStringAsync();
-        // var obj = await response.Content.ReadFromJsonAsync<dynamic>();
-        // var doc=JsonSerializer.SerializeToDocument(Result);
-        // Result= JsonSerializer.Serialize(obj, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        if (response.IsSuccessStatusCode)
-        {
-            // var obj = JsonSerializer.Deserialize<dynamic>(Result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            Ret = JsonConvert.DeserializeObject<QDIIModel>(Result);
-            // var obj = J
-            Result = $"success";
 
+        var let_LocalQDII = await _LocalStorage.GetItemAsync<LocalQDIIModel>("QDII", default);
+        if (let_LocalQDII is null || let_LocalQDII.Expiry <= DateTime.UtcNow)
+        {
+            var response = await _HttpClient.GetAsync("/api/QDII");
+            Result = await response.Content.ReadAsStringAsync();
+            // var obj = await response.Content.ReadFromJsonAsync<dynamic>();
+            // var doc=JsonSerializer.SerializeToDocument(Result);
+            // Result= JsonSerializer.Serialize(obj, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (response.IsSuccessStatusCode)
+            {
+                // var obj = JsonSerializer.Deserialize<dynamic>(Result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                Ret = JsonConvert.DeserializeObject<QDIIModel>(Result);
+                // var obj = J
+                Result = $"success";
+                if (let_LocalQDII is not null)
+                {
+                    await _LocalStorage.RemoveItemAsync("QDII", default);
+                }
+                await _LocalStorage.SetItemAsync<LocalQDIIModel>("QDII", new LocalQDIIModel { QDII = Ret, Expiry = DateTime.UtcNow.AddMinutes(30) }, default);
+            }
+            else
+            {
+                Result = response.ReasonPhrase;
+            }
         }
         else
         {
-            Result = response.ReasonPhrase;
+            Ret = let_LocalQDII.QDII;
+            Result = $"success";
         }
     }
 }

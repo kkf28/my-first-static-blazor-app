@@ -52,8 +52,8 @@ public class JisiluClient : IDisposable
         {
             //["_post_type"] = "ajax",
             ["aes"] = "1",
-            ["user_name"] = "6150adc1f2aac9f96ee68db93a406c39",
-            ["password"] = "2ec05c00f691d78fa9dc1e4c679e9861",
+            ["user_name"] = "5330b38333d45af6244a7eee195161b8",//"6150adc1f2aac9f96ee68db93a406c39",
+            ["password"] = "a7f66260901803ab3609075effef8cb2",//"2ec05c00f691d78fa9dc1e4c679e9861",
             ["auto_login"] = "1"
         };
 

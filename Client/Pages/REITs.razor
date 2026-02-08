@@ -1,5 +1,6 @@
 ﻿@page "/reits"
 @inject HttpClient _HttpClient
+@inject ILocalStorageService _LocalStorage
 @attribute [StreamRendering(true)]
 <PageTitle>云边i投资 - REITs打新</PageTitle>
 <div>
@@ -61,7 +62,7 @@
         </tfoot>
     </table>
     <div>
-        <div class="row m-0 p-0" >
+        <div class="row m-0 p-0">
             <div class="col-6 m-0 p-0">
                 <p class="fw-normal mb-1">温馨提示:</p>
                 <p class="lh-base fw-light">
@@ -113,22 +114,37 @@ else
         this.row = 0;
         this.Index = 1;
         Ret = null;
-        var response = await _HttpClient.GetAsync("/api/REITs");
-        Result = await response.Content.ReadAsStringAsync();
-        // var obj = await response.Content.ReadFromJsonAsync<dynamic>();
-        // var doc=JsonSerializer.SerializeToDocument(Result);
-        // Result= JsonSerializer.Serialize(obj, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        if (response.IsSuccessStatusCode)
-        {
-            // var obj = JsonSerializer.Deserialize<dynamic>(Result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            Ret = JsonConvert.DeserializeObject<REITsModel>(Result);
-            // var obj = J
-            Result = $"success";
 
+        var let_LocalREITs = await _LocalStorage.GetItemAsync<LocalREITsModel>("REITs", default);
+
+        if (let_LocalREITs is null || let_LocalREITs.Expiry <= DateTime.UtcNow)
+        {
+            var response = await _HttpClient.GetAsync("/api/REITs");
+            Result = await response.Content.ReadAsStringAsync();
+            // var obj = await response.Content.ReadFromJsonAsync<dynamic>();
+            // var doc=JsonSerializer.SerializeToDocument(Result);
+            // Result= JsonSerializer.Serialize(obj, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (response.IsSuccessStatusCode)
+            {
+                // var obj = JsonSerializer.Deserialize<dynamic>(Result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                Ret = JsonConvert.DeserializeObject<REITsModel>(Result);
+                // var obj = J
+                Result = $"success";
+                if (let_LocalREITs is not null)
+                {
+                    await _LocalStorage.RemoveItemAsync("REITs", default);
+                }
+                await _LocalStorage.SetItemAsync<LocalREITsModel>("REITs", new LocalREITsModel { REITs = Ret, Expiry = DateTime.UtcNow.AddMinutes(30) }, default);
+            }
+            else
+            {
+                Result = response.ReasonPhrase;
+            }
         }
         else
         {
-            Result = response.ReasonPhrase;
+            Ret = let_LocalREITs.REITs;
+            Result = $"success";
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 public class QDIIModel
@@ -7,6 +8,11 @@ public class QDIIModel
     public int Page { get; set; }
     [JsonProperty("rows")]
     public IEnumerable<QDIICellModel> Rows { get; set; }
+}
+public class LocalQDIIModel
+{
+    public QDIIModel QDII { get; set; }
+    public DateTime Expiry { get; set; }
 }
 public class LOFModel
 {
@@ -44,7 +50,7 @@ public class LOFFundModel
     public string FundName { get; set; }
     public string QType { get; set; }
     [JsonProperty("discount_rt")]
-    public string DiscountRate { get; set; }    
+    public string DiscountRate { get; set; }
     public string DiscountRate2 { get; set; }
 
     [JsonProperty("apply_status")]
