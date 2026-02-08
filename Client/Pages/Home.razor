@@ -42,8 +42,9 @@
                 var row_color = Index % 2 == 0 ? "" : "custom_table_bg";
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
                 var color2 = row.Cell.DiscountRate2?.StartsWith("-") == true ? "text-success" : "text-danger";
-                var dicrate = string.IsNullOrEmpty(@row.Cell.DiscountRate) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
-                var dicrate2 = string.IsNullOrEmpty(@row.Cell.DiscountRate2) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
+                //decimal.TryParse()
+                var dicrate = row.Cell.DiscountRate;//string.IsNullOrEmpty(@row.Cell.DiscountRate) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
+                var dicrate2 = row.Cell.DiscountRate2;//string.IsNullOrEmpty(@row.Cell.DiscountRate2) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
                 <tr class="border-bottom pb-0 @row_color">
                     <td hidden>@Index</td>
                     <td>
@@ -116,39 +117,46 @@ else
 
     private async Task Get()
     {
-        this.row = 0;
-        this.Index = 1;
-        Ret = null;
-
-        var let_LocalQDII = await _LocalStorage.GetItemAsync<LocalQDIIModel>("QDII", default);
-        if (let_LocalQDII is null || let_LocalQDII.Expiry <= DateTime.UtcNow)
+        try
         {
-            var response = await _HttpClient.GetAsync("/api/QDII");
-            Result = await response.Content.ReadAsStringAsync();
-            // var obj = await response.Content.ReadFromJsonAsync<dynamic>();
-            // var doc=JsonSerializer.SerializeToDocument(Result);
-            // Result= JsonSerializer.Serialize(obj, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            if (response.IsSuccessStatusCode)
+            this.row = 0;
+            this.Index = 1;
+            Ret = null;
+
+            var let_LocalQDII = await _LocalStorage.GetItemAsync<LocalQDIIModel>("QDII", default);
+            if (let_LocalQDII is null || let_LocalQDII.Expiry <= DateTime.UtcNow)
             {
-                // var obj = JsonSerializer.Deserialize<dynamic>(Result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                Ret = JsonConvert.DeserializeObject<QDIIModel>(Result);
-                // var obj = J
-                Result = $"success";
-                if (let_LocalQDII is not null)
+                var response = await _HttpClient.GetAsync("/api/QDII");
+                Result = await response.Content.ReadAsStringAsync();
+                // var obj = await response.Content.ReadFromJsonAsync<dynamic>();
+                // var doc=JsonSerializer.SerializeToDocument(Result);
+                // Result= JsonSerializer.Serialize(obj, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                if (response.IsSuccessStatusCode)
                 {
-                    await _LocalStorage.RemoveItemAsync("QDII", default);
+                    // var obj = JsonSerializer.Deserialize<dynamic>(Result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    Ret = JsonConvert.DeserializeObject<QDIIModel>(Result);
+                    // var obj = J
+                    Result = $"success";
+                    if (let_LocalQDII is not null)
+                    {
+                        await _LocalStorage.RemoveItemAsync("QDII", default);
+                    }
+                    await _LocalStorage.SetItemAsync<LocalQDIIModel>("QDII", new LocalQDIIModel { QDII = Ret, Expiry = DateTime.UtcNow.AddMinutes(30) }, default);
                 }
-                await _LocalStorage.SetItemAsync<LocalQDIIModel>("QDII", new LocalQDIIModel { QDII = Ret, Expiry = DateTime.UtcNow.AddMinutes(30) }, default);
+                else
+                {
+                    Result = response.ReasonPhrase;
+                }
             }
             else
             {
-                Result = response.ReasonPhrase;
+                Ret = let_LocalQDII.QDII;
+                Result = $"success";
             }
         }
-        else
+        catch (Exception ex)
         {
-            Ret = let_LocalQDII.QDII;
-            Result = $"success";
+            await _LocalStorage.SetItemAsStringAsync($"{DateTime.UtcNow.Ticks}", ex.ToString(), default);
         }
     }
 }
