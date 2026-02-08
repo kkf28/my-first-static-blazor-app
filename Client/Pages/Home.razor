@@ -43,8 +43,8 @@
                 var color = row.Cell.DiscountRate?.StartsWith("-") == true ? "text-success" : "text-danger";
                 var color2 = row.Cell.DiscountRate2?.StartsWith("-") == true ? "text-success" : "text-danger";
                 //decimal.TryParse()
-                var dicrate = string.IsNullOrEmpty(@row.Cell.DiscountRate) ? "-" : row.Cell.DiscountRate;//string.IsNullOrEmpty(@row.Cell.DiscountRate) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
-                var dicrate2 = string.IsNullOrEmpty(@row.Cell.DiscountRate2) ? "-" : row.Cell.DiscountRate2;//string.IsNullOrEmpty(@row.Cell.DiscountRate2) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
+                var dicrate = string.IsNullOrEmpty(@row.Cell.DiscountRate) ? "-" : $"{row.Cell.DiscountRate?.Replace("%", "")}%";//string.IsNullOrEmpty(@row.Cell.DiscountRate) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
+                var dicrate2 = string.IsNullOrEmpty(@row.Cell.DiscountRate2) ? "-" : $"{row.Cell.DiscountRate2?.Replace("%", "")}%";//string.IsNullOrEmpty(@row.Cell.DiscountRate2) ? "-" : $"{Math.Round(Convert.ToDecimal(@row.Cell.DiscountRate2?.Replace("%", "")), 1, MidpointRounding.AwayFromZero)}%";
                 <tr class="border-bottom pb-0 @row_color">
                     <td hidden>@Index</td>
                     <td>
