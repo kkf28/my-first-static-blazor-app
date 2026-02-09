@@ -134,7 +134,7 @@ else
                 {
                     await _LocalStorage.RemoveItemAsync("REITs", default);
                 }
-                await _LocalStorage.SetItemAsync<LocalREITsModel>("REITs", new LocalREITsModel { REITs = Ret, Expiry = DateTime.UtcNow.AddMinutes(30) }, default);
+                await _LocalStorage.SetItemAsync<LocalREITsModel>("REITs", new LocalREITsModel { REITs = Ret, Expiry = DateTime.UtcNow.AddMinutes(5) }, default);
             }
             else
             {

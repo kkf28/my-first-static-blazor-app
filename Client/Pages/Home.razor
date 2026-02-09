@@ -141,7 +141,7 @@ else
                     {
                         await _LocalStorage.RemoveItemAsync("QDII", default);
                     }
-                    await _LocalStorage.SetItemAsync<LocalQDIIModel>("QDII", new LocalQDIIModel { QDII = Ret, Expiry = DateTime.UtcNow.AddMinutes(30) }, default);
+                    await _LocalStorage.SetItemAsync<LocalQDIIModel>("QDII", new LocalQDIIModel { QDII = Ret, Expiry = DateTime.UtcNow.AddMinutes(5) }, default);
                 }
                 else
                 {
