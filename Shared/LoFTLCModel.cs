@@ -34,13 +34,13 @@ public class LoFTLCDataModel
     [JsonProperty("date")]
     public DateTime Date { get; set; }
     [JsonProperty("funds")]
-    public List<LoFTLCFundModel> Funds { get; set; } = [];
+    public List<LoFTLCFundModel> Funds { get; set; }
 }
 
 public class LoFTLCFundModel
 {
     [JsonProperty("arbitrage_types")]
-    public int[] ArbitrageType { get; set; } = [];
+    public int[] ArbitrageType { get; set; }
     [JsonProperty("code")]
     public int Code { get; set; }
     [JsonProperty("name")]

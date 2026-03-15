@@ -177,7 +177,7 @@ else
     public IEnumerable<LoFTLCFundModel>? Funds { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        await Get();
+        await GetTLC();
     }
 
     private async Task GetTLC()
