@@ -66,6 +66,24 @@ public class JisiluClient : IDisposable
         //SaveCookies(); // 保存最新的 Cookie
     }
 
+    public async Task<IEnumerable<LoFTLCFundModel>> GetLoFTLCAsync()
+    {
+        var url1 = $"https://www.talicai.com/lof/api/v1/funds?start=0&limit=500&hasMore=true&premium_rate=1&type=2";
+        var url2 = $"https://www.talicai.com/lof/api/v1/funds?start=0&limit=500&hasMore=true&premium_rate=1&type=1";
+
+        var response1 = await _client.GetAsync(url1);
+        response1.EnsureSuccessStatusCode();
+        var ret1 = await response1.Content.ReadAsStringAsync();
+        var data1 = JsonConvert.DeserializeObject<LoFTLCModel>(ret1) ?? new();
+
+        var response2 = await _client.GetAsync(url2);
+        response2.EnsureSuccessStatusCode();
+        var ret2 = await response2.Content.ReadAsStringAsync();
+        var data2 = JsonConvert.DeserializeObject<LoFTLCModel>(ret2) ?? new();
+
+        return (data1.Data.Funds ?? []).Concat(data2.Data.Funds ?? []);
+    }
+
     public async Task<QDIIModel> GetFundAsync()
     {
         var url1 = $"https://www.jisilu.cn/data/qdii/qdii_list/A?___jsl=LST___t={DateTime.UtcNow.Ticks}&only_lof=y&rp=22&page=1";

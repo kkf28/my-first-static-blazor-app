@@ -14,6 +14,11 @@ public class LocalQDIIModel
     public QDIIModel QDII { get; set; }
     public DateTime Expiry { get; set; }
 }
+public class LocalFundsModel
+{
+    public IEnumerable<LoFTLCFundModel> Funds { get; set; }
+    public DateTime Expiry { get; set; }
+}
 public class LOFModel
 {
     [JsonProperty("page")]
