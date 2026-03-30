@@ -23,7 +23,7 @@
         </div>
     </div>
 </div>
-@if (Funds?.Any()==true)
+@if (Funds?.Any() == true && 1 == 0)
 {
     <table class="table custom_small_text">
         <thead class="custom_table-danger">
@@ -86,26 +86,7 @@
         </div>
     </div>
 }
-else
-{
-    <p class="text-light">loading @docs</p>
-    <div class="text-center">
-        <div class="spinner-border text-danger" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-    <svg width="200" height="200" hidden>
-        <circle cx="100" cy="100" r="50" fill="none" stroke="#e74c3c" stroke-width="5">
-            <animateTransform attributeName="transform"
-                              type="rotate"
-                              from="0 100 100"
-                              to="360 100 100"
-                              dur="3s"
-                              repeatCount="indefinite" />
-        </circle>
-    </svg>
-}
-@if (Ret is not null && 1==0)
+@if (Ret is not null)
 {
     <table class="table custom_small_text">
         <thead class="custom_table-danger">
@@ -167,7 +148,25 @@ else
         </div>
     </div>
 }
-
+else
+{
+    <p class="text-light">loading @docs</p>
+    <div class="text-center">
+        <div class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <svg width="200" height="200" hidden>
+        <circle cx="100" cy="100" r="50" fill="none" stroke="#e74c3c" stroke-width="5">
+            <animateTransform attributeName="transform"
+                              type="rotate"
+                              from="0 100 100"
+                              to="360 100 100"
+                              dur="3s"
+                              repeatCount="indefinite" />
+        </circle>
+    </svg>
+}
 @code {
     public int row { get; set; }
     public string docs { get; set; } = "...";
@@ -177,7 +176,7 @@ else
     public IEnumerable<LoFTLCFundModel>? Funds { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        await GetTLC();
+        await Get();
     }
 
     private async Task GetTLC()

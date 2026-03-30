@@ -20,9 +20,9 @@ namespace Api
         [Function("QDII")]
         public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
-            //await client.LoginAsync();
-            //var result = await client.GetFundAsync();
-            var result = await client.GetLoFTLCAsync();
+            await client.LoginAsync();
+            var result = await client.GetFundAsync();
+            //var result = await client.GetLoFTLCAsync();
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteStringAsync(JsonConvert.SerializeObject(result));
             return response;
