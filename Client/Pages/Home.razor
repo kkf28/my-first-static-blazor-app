@@ -94,7 +94,7 @@
                 <th hidden>#</th>
                 <th>基金/代码</th>
                 <th>T-1溢价率</th>
-                <th>实时溢价率</th>
+                <th hidden>实时溢价率</th>
                 <th>申购状态</th>
             </tr>
         </thead>
@@ -115,7 +115,7 @@
                         <p class="m-0 p-0">@row.Cell.FundID <small>(@location)</small></p>
                     </td>
                     <td class="@color">@dicrate</td>
-                    <td class="@color2">@dicrate2</td>
+                    <td class="@color2" hidden>@dicrate2</td>
                     <td>@row.Cell.ApplyStatus</td>
                 </tr>
                 Index++;
